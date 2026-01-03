@@ -1,11 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Shield, Heart, Phone } from "lucide-react";
+import heroBackground from "@/assets/hero-silenced-man.jpg";
 
 const Hero = () => {
   return (
     <section className="relative min-h-screen bg-hero-gradient overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
+      {/* Background image with blur - symbolizes silenced men */}
+      <div className="absolute inset-0">
+        <img 
+          src={heroBackground} 
+          alt="Homem silenciado - símbolo da opressão" 
+          className="w-full h-full object-cover opacity-20 blur-sm"
+        />
+        <div className="absolute inset-0 bg-hero-gradient opacity-90" />
+      </div>
+      
+      {/* Floating elements */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-secondary rounded-full blur-3xl animate-float" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
       </div>
