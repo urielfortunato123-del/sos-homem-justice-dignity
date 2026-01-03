@@ -5,6 +5,7 @@ import OQueDefendemos from "@/components/OQueDefendemos";
 import ComoFunciona from "@/components/ComoFunciona";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/ChatWidget";
 
 const Index = () => {
   return (
@@ -16,6 +17,7 @@ const Index = () => {
       <ComoFunciona />
       <CTA />
       <Footer />
+      <ChatWidget />
     </main>
   );
 };
