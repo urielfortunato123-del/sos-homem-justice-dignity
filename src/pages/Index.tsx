@@ -4,20 +4,37 @@ import EmergencyButtons from "@/components/EmergencyButtons";
 import Pilares from "@/components/Pilares";
 import OQueDefendemos from "@/components/OQueDefendemos";
 import ComoFunciona from "@/components/ComoFunciona";
+import Estatisticas from "@/components/Estatisticas";
+import Depoimentos from "@/components/Depoimentos";
+import MapaApoio from "@/components/MapaApoio";
+import CalculadoraPensao from "@/components/CalculadoraPensao";
+import Parceiros from "@/components/Parceiros";
 import FAQ from "@/components/FAQ";
+import Newsletter from "@/components/Newsletter";
+import Doacoes from "@/components/Doacoes";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
+import QuickExit from "@/components/QuickExit";
+
 const Index = () => {
   return (
     <main className="min-h-screen">
       <Header />
+      <QuickExit />
       <Hero />
       <EmergencyButtons />
+      <Estatisticas />
       <Pilares />
       <OQueDefendemos />
       <ComoFunciona />
+      <Depoimentos />
+      <MapaApoio />
+      <CalculadoraPensao />
+      <Parceiros />
       <FAQ />
+      <Newsletter />
+      <Doacoes />
       <CTA />
       <Footer />
       <ChatWidget />

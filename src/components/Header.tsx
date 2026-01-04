@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Shield, Menu, X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { label: "Pilares", href: "#pilares" },
   { label: "Direitos", href: "#direitos" },
   { label: "Como Funciona", href: "#como-funciona" },
   { label: "Recursos", href: "/recursos", isPage: true },
+  { label: "Blog", href: "/blog", isPage: true },
   { label: "Contato", href: "#contato" },
 ];
 
@@ -77,8 +79,9 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* Theme Toggle & CTA Button */}
+          <div className="hidden md:flex items-center gap-2">
+            <ThemeToggle isScrolled={isScrolled} />
             <Button
               variant={isScrolled ? "default" : "hero"}
               size="sm"
