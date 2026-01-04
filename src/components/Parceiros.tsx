@@ -1,13 +1,28 @@
-import { Scale, Heart, Users, Building } from "lucide-react";
+import { Scale, Heart, Users, Building, ExternalLink } from "lucide-react";
 
 const parceiros = [
   {
     categoria: "Advogados Parceiros",
     icon: Scale,
     lista: [
-      { nome: "Dr. Ricardo Mendes", especialidade: "Direito de Família", localizacao: "São Paulo, SP" },
-      { nome: "Dra. Ana Paula Costa", especialidade: "Direito Criminal", localizacao: "Rio de Janeiro, RJ" },
-      { nome: "Dr. Fernando Lima", especialidade: "Direito Civil", localizacao: "Belo Horizonte, MG" },
+      { 
+        nome: "Dra. Ináh Confolonieri", 
+        especialidade: "Defesa de Homens e Pais", 
+        localizacao: "BA - WhatsApp (73) 99810-1900",
+        tiktok: "https://www.tiktok.com/@advogadaonline"
+      },
+      { 
+        nome: "Dra. Jamily Wenceslau", 
+        especialidade: "Direito de Família", 
+        localizacao: "SP - (11) 91024-7841",
+        tiktok: "https://www.tiktok.com/@jamilywenceslau"
+      },
+      { 
+        nome: "Dra. Tatiane", 
+        especialidade: "Advogada para Homens", 
+        localizacao: "RS - (51) 98493-8082",
+        tiktok: "https://www.tiktok.com/@tatiane_advparahomens"
+      },
     ],
   },
   {
@@ -77,7 +92,20 @@ const Parceiros = () => {
                     key={idx}
                     className="p-4 rounded-xl bg-muted/50 hover:bg-muted transition-colors duration-200"
                   >
-                    <h4 className="font-semibold text-foreground">{item.nome}</h4>
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-semibold text-foreground">{item.nome}</h4>
+                      {"tiktok" in item && item.tiktok && (
+                        <a
+                          href={item.tiktok}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-xs text-secondary hover:text-primary transition-colors"
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                          TikTok
+                        </a>
+                      )}
+                    </div>
                     <p className="text-sm text-secondary">{item.especialidade}</p>
                     <p className="text-xs text-muted-foreground mt-1">{item.localizacao}</p>
                   </div>
