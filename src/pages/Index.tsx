@@ -9,6 +9,7 @@ import Depoimentos from "@/components/Depoimentos";
 import MapaApoio from "@/components/MapaApoio";
 import CalculadoraPensao from "@/components/CalculadoraPensao";
 import Parceiros from "@/components/Parceiros";
+import BibliotecaDestaque from "@/components/BibliotecaDestaque";
 import FAQ from "@/components/FAQ";
 import Newsletter from "@/components/Newsletter";
 import Doacoes from "@/components/Doacoes";
@@ -34,6 +35,7 @@ const Index = () => {
       <MapaApoio />
       <CalculadoraPensao />
       <Parceiros />
+      <BibliotecaDestaque />
       <FAQ />
       <Newsletter />
       <Doacoes />
