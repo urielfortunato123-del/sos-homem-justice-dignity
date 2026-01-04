@@ -106,17 +106,21 @@ const Header = () => {
               </Button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 z-[70]"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? (
-                <X className={`w-6 h-6 ${isScrolled ? "text-foreground" : "text-primary-foreground"}`} />
-              ) : (
-                <Menu className={`w-6 h-6 ${isScrolled ? "text-foreground" : "text-primary-foreground"}`} />
-              )}
-            </button>
+            {/* Mobile: Theme, Updates & Menu Button */}
+            <div className="md:hidden flex items-center gap-1">
+              <ThemeToggle isScrolled={isScrolled} />
+              <AppUpdates />
+              <button
+                className="p-2 z-[70]"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? (
+                  <X className={`w-6 h-6 ${isScrolled ? "text-foreground" : "text-primary-foreground"}`} />
+                ) : (
+                  <Menu className={`w-6 h-6 ${isScrolled ? "text-foreground" : "text-primary-foreground"}`} />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </header>
