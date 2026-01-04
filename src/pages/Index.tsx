@@ -16,12 +16,14 @@ import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
 import QuickExit from "@/components/QuickExit";
+import SOSButton from "@/components/SOSButton";
 
 const Index = () => {
   return (
     <main className="min-h-screen">
       <Header />
       <QuickExit />
+      <SOSButton />
       <Hero />
       <EmergencyButtons />
       <Estatisticas />
