@@ -1,4 +1,5 @@
-import { Scale, Heart, Users, Building, ExternalLink } from "lucide-react";
+import { Scale, Heart, Users, Building, ExternalLink, MessageCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const parceiros = [
   {
@@ -8,19 +9,22 @@ const parceiros = [
       { 
         nome: "Dra. Ináh Confolonieri", 
         especialidade: "Defesa de Homens e Pais", 
-        localizacao: "BA - WhatsApp (73) 99810-1900",
+        localizacao: "BA",
+        whatsapp: "5573998101900",
         tiktok: "https://www.tiktok.com/@advogadaonline"
       },
       { 
         nome: "Dra. Jamily Wenceslau", 
         especialidade: "Direito de Família", 
-        localizacao: "SP - (11) 91024-7841",
+        localizacao: "SP",
+        whatsapp: "5511910247841",
         tiktok: "https://www.tiktok.com/@jamilywenceslau"
       },
       { 
         nome: "Dra. Tatiane", 
         especialidade: "Advogada para Homens", 
-        localizacao: "RS - (51) 98493-8082",
+        localizacao: "RS",
+        whatsapp: "5551984938082",
         tiktok: "https://www.tiktok.com/@tatiane_advparahomens"
       },
     ],
@@ -29,7 +33,7 @@ const parceiros = [
     categoria: "Psicólogos e Terapeutas",
     icon: Heart,
     lista: [
-      { nome: "Psicóloga Maya", especialidade: "Valores Acessíveis", localizacao: "Goiânia, GO" },
+      { nome: "Psicóloga Maya", especialidade: "Valores Acessíveis", localizacao: "Goiânia, GO", whatsapp: "5562999999999" },
       { nome: "Dr. Paulo Henrique", especialidade: "Terapia Masculina", localizacao: "São Paulo, SP" },
       { nome: "Dra. Carla Santos", especialidade: "Trauma e Recuperação", localizacao: "Curitiba, PR" },
     ],
@@ -108,6 +112,18 @@ const Parceiros = () => {
                     </div>
                     <p className="text-sm text-secondary">{item.especialidade}</p>
                     <p className="text-xs text-muted-foreground mt-1">{item.localizacao}</p>
+                    
+                    {"whatsapp" in item && item.whatsapp && (
+                      <a
+                        href={`https://wa.me/${item.whatsapp}?text=Olá! Vim pelo SOS Homem e gostaria de mais informações.`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-green-500 hover:bg-green-600 text-white text-xs font-medium transition-colors"
+                      >
+                        <MessageCircle className="w-3.5 h-3.5" />
+                        Chamar no WhatsApp
+                      </a>
+                    )}
                   </div>
                 ))}
               </div>
