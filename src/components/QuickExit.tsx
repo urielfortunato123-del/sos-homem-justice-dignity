@@ -1,20 +1,96 @@
+import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
 
 const QuickExit = () => {
+  const [position, setPosition] = useState({ x: 16, y: 80 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
   const handleQuickExit = () => {
-    // Replace current history entry with Google
-    window.location.replace("https://www.google.com");
+    if (!isDragging) {
+      window.location.replace("https://www.google.com");
+    }
   };
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDragOffset({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+      setIsDragging(true);
+      buttonRef.current.setPointerCapture(e.pointerId);
+    }
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (isDragging && buttonRef.current) {
+      const newX = e.clientX - dragOffset.x;
+      const newY = e.clientY - dragOffset.y;
+
+      // Limitar dentro da tela
+      const buttonWidth = buttonRef.current.offsetWidth;
+      const buttonHeight = buttonRef.current.offsetHeight;
+      const maxX = window.innerWidth - buttonWidth - 8;
+      const maxY = window.innerHeight - buttonHeight - 8;
+
+      setPosition({
+        x: Math.max(8, Math.min(newX, maxX)),
+        y: Math.max(8, Math.min(newY, maxY)),
+      });
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (buttonRef.current) {
+      buttonRef.current.releasePointerCapture(e.pointerId);
+    }
+    // Pequeno delay para evitar que o click seja acionado após arrastar
+    setTimeout(() => setIsDragging(false), 100);
+  };
+
+  // Salvar posição no localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem("quickExitPosition");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setPosition(parsed);
+      } catch {
+        // Usar posição padrão se houver erro
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isDragging) {
+      localStorage.setItem("quickExitPosition", JSON.stringify(position));
+    }
+  }, [position, isDragging]);
 
   return (
     <button
+      ref={buttonRef}
       onClick={handleQuickExit}
-      className="fixed top-20 right-4 md:top-4 md:right-24 z-[60] bg-destructive hover:bg-destructive/90 text-destructive-foreground px-4 py-2 rounded-lg shadow-elevated flex items-center gap-2 transition-all duration-200 hover:scale-105 font-medium text-sm"
-      title="Sair rapidamente do site"
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      style={{
+        left: position.x,
+        top: position.y,
+        touchAction: "none",
+      }}
+      className={`fixed z-[100] bg-destructive hover:bg-destructive/90 text-destructive-foreground w-14 h-14 rounded-full shadow-elevated flex items-center justify-center transition-transform duration-200 font-bold text-sm select-none ${
+        isDragging ? "scale-110 cursor-grabbing opacity-80" : "cursor-grab hover:scale-105"
+      }`}
+      title="Arraste para mover • Clique para sair rapidamente"
     >
-      <X className="w-4 h-4" />
-      <span className="hidden sm:inline">Sair Rápido</span>
-      <span className="sm:hidden">ESC</span>
+      <div className="flex flex-col items-center">
+        <X className="w-5 h-5" />
+        <span className="text-[10px] mt-0.5">ESC</span>
+      </div>
     </button>
   );
 };
