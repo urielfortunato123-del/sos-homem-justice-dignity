@@ -82,7 +82,7 @@ const QuickExit = () => {
         top: position.y,
         touchAction: "none",
       }}
-      className={`fixed z-[100] bg-destructive hover:bg-destructive/90 text-destructive-foreground w-14 h-14 rounded-full shadow-elevated flex items-center justify-center transition-transform duration-200 font-bold text-sm select-none ${
+      className={`fixed z-[40] bg-destructive hover:bg-destructive/90 text-destructive-foreground w-14 h-14 rounded-full shadow-elevated flex items-center justify-center transition-transform duration-200 font-bold text-sm select-none ${
         isDragging ? "scale-110 cursor-grabbing opacity-80" : "cursor-grab hover:scale-105"
       }`}
       title="Arraste para mover • Clique para sair rapidamente"
