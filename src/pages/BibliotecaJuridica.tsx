@@ -6,11 +6,11 @@ import { Separator } from "@/components/ui/separator";
 
 const BibliotecaJuridica = () => {
   const handleDownload = () => {
-    // TODO: Substituir pelo link real do PDF quando disponível
-    const pdfUrl = "/documentos/anteprojeto-sos-homem.pdf";
+    // TODO: Substituir pelo link real do documento quando disponível
+    const docUrl = "/documentos/anteprojeto-sos-homem.docx";
     const link = document.createElement("a");
-    link.href = pdfUrl;
-    link.download = "Anteprojeto-Lei-Programa-SOS-Homem.pdf";
+    link.href = docUrl;
+    link.download = "Anteprojeto-Lei-Programa-SOS-Homem.docx";
     link.click();
   };
 
@@ -154,7 +154,7 @@ const BibliotecaJuridica = () => {
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
-                  <span className="px-3 py-1 bg-muted rounded-full">Formato: PDF</span>
+                  <span className="px-3 py-1 bg-muted rounded-full">Formato: Word (.docx)</span>
                   <span className="px-3 py-1 bg-muted rounded-full">Uso: Estudo e orientação jurídica</span>
                   <span className="px-3 py-1 bg-muted rounded-full">Autor: Anteprojeto cidadão</span>
                 </div>
