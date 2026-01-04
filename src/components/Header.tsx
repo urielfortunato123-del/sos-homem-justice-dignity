@@ -103,16 +103,35 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Full Screen Overlay */}
         {isMobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-md border-b border-border shadow-elevated animate-fade-up">
-            <nav className="container px-4 py-6 flex flex-col gap-4">
+          <div className="md:hidden fixed inset-0 top-0 left-0 z-[60] bg-background min-h-screen animate-fade-in">
+            {/* Header do menu */}
+            <div className="flex items-center justify-between px-4 py-5 border-b border-border">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-primary-foreground" />
+                </div>
+                <span className="font-display text-xl font-bold text-foreground">
+                  SOS Homem
+                </span>
+              </div>
+              <button
+                className="p-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <X className="w-6 h-6 text-foreground" />
+              </button>
+            </div>
+
+            {/* Links do menu */}
+            <nav className="px-6 py-8 flex flex-col gap-2">
               {navLinks.map((link) => (
                 link.isPage ? (
                   <Link
                     key={link.href}
                     to={link.href}
-                    className="text-foreground font-medium py-2 hover:text-secondary transition-colors"
+                    className="text-foreground text-lg font-medium py-4 px-4 rounded-xl hover:bg-muted transition-colors border-b border-border/50"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
@@ -121,14 +140,20 @@ const Header = () => {
                   <a
                     key={link.href}
                     href={link.href}
-                    className="text-foreground font-medium py-2 hover:text-secondary transition-colors"
+                    className="text-foreground text-lg font-medium py-4 px-4 rounded-xl hover:bg-muted transition-colors border-b border-border/50"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     {link.label}
                   </a>
                 )
               ))}
-              <Button variant="default" className="mt-4">
+              
+              <div className="mt-6 flex items-center justify-between">
+                <span className="text-muted-foreground text-sm">Tema</span>
+                <ThemeToggle isScrolled={true} />
+              </div>
+
+              <Button variant="default" size="lg" className="mt-6 w-full">
                 Preciso de Ajuda
               </Button>
             </nav>
