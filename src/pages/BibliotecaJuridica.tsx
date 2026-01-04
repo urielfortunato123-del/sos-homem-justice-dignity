@@ -6,8 +6,7 @@ import { Separator } from "@/components/ui/separator";
 
 const BibliotecaJuridica = () => {
   const handleDownload = () => {
-    // TODO: Substituir pelo link real do documento quando disponível
-    const docUrl = "/documentos/anteprojeto-sos-homem.docx";
+    const docUrl = "/documentos/Anteprojeto-Lei-Programa-SOS-Homem.docx";
     const link = document.createElement("a");
     link.href = docUrl;
     link.download = "Anteprojeto-Lei-Programa-SOS-Homem.docx";
