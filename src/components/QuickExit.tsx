@@ -9,7 +9,7 @@ const QuickExit = () => {
   return (
     <button
       onClick={handleQuickExit}
-      className="fixed top-4 right-4 z-[100] bg-destructive hover:bg-destructive/90 text-destructive-foreground px-4 py-2 rounded-lg shadow-elevated flex items-center gap-2 transition-all duration-200 hover:scale-105 font-medium text-sm"
+      className="fixed top-20 right-4 md:top-4 md:right-24 z-[60] bg-destructive hover:bg-destructive/90 text-destructive-foreground px-4 py-2 rounded-lg shadow-elevated flex items-center gap-2 transition-all duration-200 hover:scale-105 font-medium text-sm"
       title="Sair rapidamente do site"
     >
       <X className="w-4 h-4" />
