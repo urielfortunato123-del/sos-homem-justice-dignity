@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Shield, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import AppUpdates from "./AppUpdates";
 
 const navLinks = [
   { label: "Pilares", href: "#pilares" },
@@ -92,8 +93,9 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* Theme Toggle & CTA Button */}
+            {/* Theme Toggle, Updates & CTA Button */}
             <div className="hidden md:flex items-center gap-2">
+              <AppUpdates />
               <ThemeToggle isScrolled={isScrolled} />
               <Button
                 variant={isScrolled ? "default" : "hero"}
@@ -166,6 +168,11 @@ const Header = () => {
             <div className="mt-6 flex items-center justify-between">
               <span className="text-muted-foreground text-sm">Tema</span>
               <ThemeToggle isScrolled={true} />
+            </div>
+
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-muted-foreground text-sm">Atualizações</span>
+              <AppUpdates />
             </div>
 
             <Button variant="default" size="lg" className="mt-6 w-full">
