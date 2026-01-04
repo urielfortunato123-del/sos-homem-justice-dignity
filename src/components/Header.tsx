@@ -10,6 +10,7 @@ const navLinks = [
   { label: "Direitos", href: "#direitos" },
   { label: "Como Funciona", href: "#como-funciona" },
   { label: "Recursos", href: "/recursos", isPage: true },
+  { label: "Biblioteca Jurídica", href: "/biblioteca-juridica", isPage: true },
   { label: "Blog", href: "/blog", isPage: true },
   { label: "Contato", href: "#contato" },
 ];
