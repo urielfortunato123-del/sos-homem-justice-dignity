@@ -54,18 +54,18 @@ const Hero = () => {
         </div>
 
         {/* Trust indicators */}
-        <div className="animate-fade-up mt-16 grid grid-cols-3 gap-8 md:gap-16 text-primary-foreground/70" style={{ animationDelay: '0.4s' }}>
+        <div className="animate-fade-up mt-16 grid grid-cols-3 gap-4 sm:gap-8 md:gap-16 text-primary-foreground/70 w-full max-w-md md:max-w-none" style={{ animationDelay: '0.4s' }}>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-display font-bold text-primary-foreground">24h</p>
-            <p className="text-sm mt-1">Atendimento</p>
+            <p className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-primary-foreground">24h</p>
+            <p className="text-xs sm:text-sm mt-1">Atendimento</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-display font-bold text-primary-foreground">100%</p>
-            <p className="text-sm mt-1">Sigiloso</p>
+            <p className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-primary-foreground">100%</p>
+            <p className="text-xs sm:text-sm mt-1">Sigiloso</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-display font-bold text-primary-foreground">Gratuito</p>
-            <p className="text-sm mt-1">Sempre</p>
+            <p className="text-xl sm:text-3xl md:text-4xl font-display font-bold text-primary-foreground">Gratuito</p>
+            <p className="text-xs sm:text-sm mt-1">Sempre</p>
           </div>
         </div>
       </div>
