@@ -25,15 +25,30 @@ const CTA = () => {
 
           {/* Contact options */}
           <div className="animate-fade-up grid sm:grid-cols-3 gap-4 mb-10" style={{ animationDelay: '0.2s' }}>
-            <Button variant="hero" size="lg" className="w-full group">
+            <Button 
+              variant="hero" 
+              size="lg" 
+              className="w-full group"
+              onClick={() => window.location.href = 'tel:188'}
+            >
               <Phone className="w-5 h-5 transition-transform group-hover:scale-110" />
               Ligar Agora
             </Button>
-            <Button variant="heroOutline" size="lg" className="w-full group">
+            <Button 
+              variant="heroOutline" 
+              size="lg" 
+              className="w-full group"
+              onClick={() => window.open('https://wa.me/5562992867271?text=Olá,%20preciso%20de%20ajuda', '_blank')}
+            >
               <MessageCircle className="w-5 h-5 transition-transform group-hover:scale-110" />
               Chat Online
             </Button>
-            <Button variant="heroOutline" size="lg" className="w-full group">
+            <Button 
+              variant="heroOutline" 
+              size="lg" 
+              className="w-full group"
+              onClick={() => window.location.href = 'mailto:contato@soshomem.org.br?subject=Preciso%20de%20Ajuda'}
+            >
               <Mail className="w-5 h-5 transition-transform group-hover:scale-110" />
               Email
             </Button>
