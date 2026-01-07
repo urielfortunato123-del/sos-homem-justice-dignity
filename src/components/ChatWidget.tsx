@@ -14,7 +14,7 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [mode, setMode] = useState<"chat" | "search">("chat");
+  const [mode, setMode] = useState<"chat" | "google" | "duckduckgo">("chat");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -160,19 +160,29 @@ const ChatWidget = () => {
             </div>
             <div>
               <h3 className="font-display font-semibold text-primary-foreground">
-                {mode === "chat" ? "SOS Homem" : "Pesquisa Google"}
+                {mode === "chat" ? "SOS Homem" : mode === "google" ? "Google" : "DuckDuckGo"}
               </h3>
               <p className="text-xs text-primary-foreground/70">
-                {mode === "chat" ? "Assistente de Apoio" : "Buscar informações"}
+                {mode === "chat" ? "Assistente de Apoio" : mode === "duckduckgo" ? "Pesquisa privada" : "Buscar informações"}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-1">
+            {mode !== "chat" && (
+              <button
+                onClick={() => setMode(mode === "google" ? "duckduckgo" : "google")}
+                className="px-2 py-1 rounded-full hover:bg-primary-foreground/20 flex items-center justify-center transition-colors text-xs text-primary-foreground font-medium"
+                aria-label={mode === "google" ? "Mudar para DuckDuckGo" : "Mudar para Google"}
+                title={mode === "google" ? "Mudar para DuckDuckGo (mais privado)" : "Mudar para Google"}
+              >
+                {mode === "google" ? "🦆 DDG" : "🔍 Google"}
+              </button>
+            )}
             <button
-              onClick={() => setMode(mode === "chat" ? "search" : "chat")}
+              onClick={() => setMode(mode === "chat" ? "google" : "chat")}
               className="w-8 h-8 rounded-full hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
-              aria-label={mode === "chat" ? "Abrir pesquisa Google" : "Voltar ao chat"}
-              title={mode === "chat" ? "Abrir pesquisa Google" : "Voltar ao chat"}
+              aria-label={mode === "chat" ? "Abrir pesquisa" : "Voltar ao chat"}
+              title={mode === "chat" ? "Abrir pesquisa" : "Voltar ao chat"}
             >
               {mode === "chat" ? (
                 <Search className="w-5 h-5 text-primary-foreground" />
@@ -270,13 +280,23 @@ const ChatWidget = () => {
               </p>
             </form>
           </>
-        ) : (
+        ) : mode === "google" ? (
           /* Google Search iframe */
           <div className="flex-1 bg-white">
             <iframe
               src="https://www.google.com/webhp?igu=1"
               className="w-full h-full border-0"
               title="Pesquisa Google"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+            />
+          </div>
+        ) : (
+          /* DuckDuckGo Search iframe */
+          <div className="flex-1 bg-white">
+            <iframe
+              src="https://duckduckgo.com/"
+              className="w-full h-full border-0"
+              title="Pesquisa DuckDuckGo"
               sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
             />
           </div>
