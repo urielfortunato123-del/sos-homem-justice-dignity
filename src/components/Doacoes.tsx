@@ -5,7 +5,7 @@ import { toast } from "@/hooks/use-toast";
 
 const Doacoes = () => {
   const [copied, setCopied] = useState(false);
-  const pixKey = "contato@soshomem.org.br"; // Chave PIX exemplo
+  const pixKey = "soshomem@soshomem.com.br";
 
   const copyPix = () => {
     navigator.clipboard.writeText(pixKey);
