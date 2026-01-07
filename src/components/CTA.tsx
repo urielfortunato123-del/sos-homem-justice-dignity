@@ -47,7 +47,7 @@ const CTA = () => {
               variant="heroOutline" 
               size="lg" 
               className="w-full group"
-              onClick={() => window.location.href = 'mailto:contato@soshomem.org.br?subject=Preciso%20de%20Ajuda'}
+              onClick={() => window.location.href = 'mailto:soshomem@soshomem.com.br?subject=Preciso%20de%20Ajuda'}
             >
               <Mail className="w-5 h-5 transition-transform group-hover:scale-110" />
               Email
