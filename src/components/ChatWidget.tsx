@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, X, Send, Loader2, Shield, Search, MessageSquare } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, Shield, Search, MessageSquare, ExternalLink } from "lucide-react";
 
 type Message = {
   role: "user" | "assistant";
   content: string;
 };
+
+type SearchEngine = "google" | "duckduckgo";
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat-sos-homem`;
 
@@ -14,7 +16,9 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [mode, setMode] = useState<"chat" | "google" | "duckduckgo">("chat");
+  const [mode, setMode] = useState<"chat" | "search">("chat");
+  const [searchEngine, setSearchEngine] = useState<SearchEngine>("duckduckgo");
+  const [searchQuery, setSearchQuery] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -160,26 +164,26 @@ const ChatWidget = () => {
             </div>
             <div>
               <h3 className="font-display font-semibold text-primary-foreground">
-                {mode === "chat" ? "SOS Homem" : mode === "google" ? "Google" : "DuckDuckGo"}
+                {mode === "chat" ? "SOS Homem" : searchEngine === "google" ? "Google" : "DuckDuckGo"}
               </h3>
               <p className="text-xs text-primary-foreground/70">
-                {mode === "chat" ? "Assistente de Apoio" : mode === "duckduckgo" ? "Pesquisa privada" : "Buscar informações"}
+                {mode === "chat" ? "Assistente de Apoio" : searchEngine === "duckduckgo" ? "Pesquisa privada" : "Buscar informações"}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-1">
-            {mode !== "chat" && (
+            {mode === "search" && (
               <button
-                onClick={() => setMode(mode === "google" ? "duckduckgo" : "google")}
+                onClick={() => setSearchEngine(searchEngine === "google" ? "duckduckgo" : "google")}
                 className="px-2 py-1 rounded-full hover:bg-primary-foreground/20 flex items-center justify-center transition-colors text-xs text-primary-foreground font-medium"
-                aria-label={mode === "google" ? "Mudar para DuckDuckGo" : "Mudar para Google"}
-                title={mode === "google" ? "Mudar para DuckDuckGo (mais privado)" : "Mudar para Google"}
+                aria-label={searchEngine === "google" ? "Mudar para DuckDuckGo" : "Mudar para Google"}
+                title={searchEngine === "google" ? "Mudar para DuckDuckGo (mais privado)" : "Mudar para Google"}
               >
-                {mode === "google" ? "🦆 DDG" : "🔍 Google"}
+                {searchEngine === "google" ? "🦆 DDG" : "🔍 Google"}
               </button>
             )}
             <button
-              onClick={() => setMode(mode === "chat" ? "google" : "chat")}
+              onClick={() => setMode(mode === "chat" ? "search" : "chat")}
               className="w-8 h-8 rounded-full hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
               aria-label={mode === "chat" ? "Abrir pesquisa" : "Voltar ao chat"}
               title={mode === "chat" ? "Abrir pesquisa" : "Voltar ao chat"}
@@ -280,25 +284,88 @@ const ChatWidget = () => {
               </p>
             </form>
           </>
-        ) : mode === "google" ? (
-          /* Google Search iframe */
-          <div className="flex-1 bg-white">
-            <iframe
-              src="https://www.google.com/webhp?igu=1"
-              className="w-full h-full border-0"
-              title="Pesquisa Google"
-              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-            />
-          </div>
         ) : (
-          /* DuckDuckGo Search iframe */
-          <div className="flex-1 bg-white">
-            <iframe
-              src="https://duckduckgo.com/"
-              className="w-full h-full border-0"
-              title="Pesquisa DuckDuckGo"
-              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-            />
+          /* Search Mode - with search input */
+          <div className="flex-1 flex flex-col p-4">
+            <div className="text-center py-6">
+              <div className="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center mx-auto mb-4">
+                {searchEngine === "duckduckgo" ? (
+                  <span className="text-3xl">🦆</span>
+                ) : (
+                  <Search className="w-8 h-8 text-secondary" />
+                )}
+              </div>
+              <h4 className="font-display font-semibold text-foreground mb-2">
+                Pesquisa {searchEngine === "google" ? "Google" : "DuckDuckGo"}
+              </h4>
+              <p className="text-sm text-muted-foreground max-w-xs mx-auto mb-6">
+                {searchEngine === "duckduckgo" 
+                  ? "Navegação privada - sem rastreamento" 
+                  : "Busque informações de forma rápida"}
+              </p>
+            </div>
+            
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  const url = searchEngine === "google" 
+                    ? `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`
+                    : `https://duckduckgo.com/?q=${encodeURIComponent(searchQuery)}`;
+                  window.open(url, '_blank', 'noopener,noreferrer');
+                }
+              }} 
+              className="space-y-3"
+            >
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="O que você quer pesquisar?"
+                  className="flex-1 rounded-xl border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50"
+                />
+                <Button
+                  type="submit"
+                  variant="hero"
+                  size="icon"
+                  className="h-12 w-12 rounded-xl flex-shrink-0"
+                  disabled={!searchQuery.trim()}
+                >
+                  <ExternalLink className="w-5 h-5" />
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground text-center">
+                Abre em nova aba • {searchEngine === "duckduckgo" ? "Privado e seguro" : "Resultados completos"}
+              </p>
+            </form>
+
+            {/* Quick search suggestions */}
+            <div className="mt-6 space-y-2">
+              <p className="text-xs text-muted-foreground font-medium">Sugestões rápidas:</p>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Lei Maria da Penha homens",
+                  "Alienação parental",
+                  "Guarda compartilhada",
+                  "Violência doméstica masculina"
+                ].map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    onClick={() => {
+                      const url = searchEngine === "google" 
+                        ? `https://www.google.com/search?q=${encodeURIComponent(suggestion)}`
+                        : `https://duckduckgo.com/?q=${encodeURIComponent(suggestion)}`;
+                      window.open(url, '_blank', 'noopener,noreferrer');
+                    }}
+                    className="text-xs px-3 py-1.5 rounded-full bg-muted hover:bg-muted/80 text-foreground transition-colors"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>
