@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, X, Send, Loader2, Shield } from "lucide-react";
+import { MessageCircle, X, Send, Loader2, Shield, Search, MessageSquare } from "lucide-react";
 
 type Message = {
   role: "user" | "assistant";
@@ -14,6 +14,7 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [mode, setMode] = useState<"chat" | "search">("chat");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -151,103 +152,135 @@ const ChatWidget = () => {
         <div className="bg-hero-gradient px-4 py-4 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-              <Shield className="w-5 h-5 text-primary-foreground" />
+              {mode === "chat" ? (
+                <Shield className="w-5 h-5 text-primary-foreground" />
+              ) : (
+                <Search className="w-5 h-5 text-primary-foreground" />
+              )}
             </div>
             <div>
               <h3 className="font-display font-semibold text-primary-foreground">
-                SOS Homem
+                {mode === "chat" ? "SOS Homem" : "Pesquisa Google"}
               </h3>
               <p className="text-xs text-primary-foreground/70">
-                Assistente de Apoio
+                {mode === "chat" ? "Assistente de Apoio" : "Buscar informações"}
               </p>
             </div>
           </div>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="w-8 h-8 rounded-full hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
-            aria-label="Fechar chat"
-          >
-            <X className="w-5 h-5 text-primary-foreground" />
-          </button>
-        </div>
-
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.length === 0 && (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center mx-auto mb-4">
-                <Shield className="w-8 h-8 text-secondary" />
-              </div>
-              <h4 className="font-display font-semibold text-foreground mb-2">
-                Olá, estou aqui para ajudar
-              </h4>
-              <p className="text-sm text-muted-foreground max-w-xs mx-auto">
-                Conte sua situação. Esta conversa é sigilosa e você será ouvido com respeito.
-              </p>
-            </div>
-          )}
-
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setMode(mode === "chat" ? "search" : "chat")}
+              className="w-8 h-8 rounded-full hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+              aria-label={mode === "chat" ? "Abrir pesquisa Google" : "Voltar ao chat"}
+              title={mode === "chat" ? "Abrir pesquisa Google" : "Voltar ao chat"}
             >
-              <div
-                className={`max-w-[85%] rounded-2xl px-4 py-3 ${
-                  message.role === "user"
-                    ? "bg-primary text-primary-foreground rounded-br-md"
-                    : "bg-muted text-foreground rounded-bl-md"
-                }`}
-              >
-                <p className="text-sm whitespace-pre-wrap leading-relaxed">
-                  {message.content}
-                </p>
-              </div>
-            </div>
-          ))}
-
-          {isLoading && messages[messages.length - 1]?.role === "user" && (
-            <div className="flex justify-start">
-              <div className="bg-muted rounded-2xl rounded-bl-md px-4 py-3">
-                <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
-              </div>
-            </div>
-          )}
-
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Input */}
-        <form onSubmit={handleSubmit} className="p-4 border-t border-border flex-shrink-0">
-          <div className="flex gap-2">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Digite sua mensagem..."
-              className="flex-1 resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50 min-h-[48px] max-h-32"
-              rows={1}
-              disabled={isLoading}
-            />
-            <Button
-              type="submit"
-              variant="hero"
-              size="icon"
-              className="h-12 w-12 rounded-xl flex-shrink-0"
-              disabled={!input.trim() || isLoading}
-            >
-              {isLoading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
+              {mode === "chat" ? (
+                <Search className="w-5 h-5 text-primary-foreground" />
               ) : (
-                <Send className="w-5 h-5" />
+                <MessageSquare className="w-5 h-5 text-primary-foreground" />
               )}
-            </Button>
+            </button>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="w-8 h-8 rounded-full hover:bg-primary-foreground/20 flex items-center justify-center transition-colors"
+              aria-label="Fechar chat"
+            >
+              <X className="w-5 h-5 text-primary-foreground" />
+            </button>
           </div>
-          <p className="text-xs text-muted-foreground text-center mt-2">
-            Conversa 100% sigilosa e confidencial
-          </p>
-        </form>
+        </div>
+
+        {mode === "chat" ? (
+          <>
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {messages.length === 0 && (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 rounded-full bg-secondary/20 flex items-center justify-center mx-auto mb-4">
+                    <Shield className="w-8 h-8 text-secondary" />
+                  </div>
+                  <h4 className="font-display font-semibold text-foreground mb-2">
+                    Olá, estou aqui para ajudar
+                  </h4>
+                  <p className="text-sm text-muted-foreground max-w-xs mx-auto">
+                    Conte sua situação. Esta conversa é sigilosa e você será ouvido com respeito.
+                  </p>
+                </div>
+              )}
+
+              {messages.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  <div
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                      message.role === "user"
+                        ? "bg-primary text-primary-foreground rounded-br-md"
+                        : "bg-muted text-foreground rounded-bl-md"
+                    }`}
+                  >
+                    <p className="text-sm whitespace-pre-wrap leading-relaxed">
+                      {message.content}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+              {isLoading && messages[messages.length - 1]?.role === "user" && (
+                <div className="flex justify-start">
+                  <div className="bg-muted rounded-2xl rounded-bl-md px-4 py-3">
+                    <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
+                  </div>
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input */}
+            <form onSubmit={handleSubmit} className="p-4 border-t border-border flex-shrink-0">
+              <div className="flex gap-2">
+                <textarea
+                  ref={inputRef}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Digite sua mensagem..."
+                  className="flex-1 resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-secondary/50 min-h-[48px] max-h-32"
+                  rows={1}
+                  disabled={isLoading}
+                />
+                <Button
+                  type="submit"
+                  variant="hero"
+                  size="icon"
+                  className="h-12 w-12 rounded-xl flex-shrink-0"
+                  disabled={!input.trim() || isLoading}
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Send className="w-5 h-5" />
+                  )}
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground text-center mt-2">
+                Conversa 100% sigilosa e confidencial
+              </p>
+            </form>
+          </>
+        ) : (
+          /* Google Search iframe */
+          <div className="flex-1 bg-white">
+            <iframe
+              src="https://www.google.com/webhp?igu=1"
+              className="w-full h-full border-0"
+              title="Pesquisa Google"
+              sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
+            />
+          </div>
+        )}
       </div>
     </>
   );
