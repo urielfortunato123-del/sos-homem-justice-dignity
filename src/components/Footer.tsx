@@ -46,7 +46,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3 text-primary-foreground/70">
               <li>Atendimento 24 horas</li>
-              <li>contato@soshomem.org.br</li>
+              <li>soshomem@soshomem.com.br</li>
               <li>Sigiloso e Gratuito</li>
             </ul>
           </div>
